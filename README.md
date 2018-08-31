@@ -4,6 +4,13 @@ curl -XPOST http://localhost:8001/process -d '{"ColumnDefinitions":[{"CSVColumnI
 
 To See the data in the database using the command line :
 
-```
-aws dynamodb scan --table-name DynagoDb
-```
+`aws dynamodb scan --table-name DynagoDb`
+
+To get a csv file from S3 :
+`aws s3 cp s3://dynagouseast1/testdata.csv .`
+
+To push a csv file to s3:
+`aws s3 cp testdata.csv s3://dynagouseast1/testdata.csv`
+
+
+Edit the curl command accordingly to alter the S3 location if you want to use new data.
