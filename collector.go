@@ -71,6 +71,8 @@ func CloudwatchWorker(rate chan<- time.Duration, d DynamoConfig) {
 
 			// Send the request, and get the response or error back
 			now := time.Now()
+
+			// TODO Maybe use now.Sub?
 			prev := now.Add(time.Duration(60) * time.Minute * -1)
 
 			rcr := svc.GetMetricStatisticsRequest(&cloudwatch.GetMetricStatisticsInput{
@@ -140,16 +142,20 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 
 	go CloudwatchWorker(rate, t.DynamoConfig)
 
+	// TODO Could the default configuration be set at startup? If it needs to be configurable, perhaps is needs to be
+	// passed in as a POST parameter (perhaps with its own handler function)
 	dynamoCfg, err := external.LoadDefaultAWSConfig()
 	if err != nil {
 		panic("unable to load SDK config, " + err.Error())
 	}
 
+	// TODO This could be made configurable.
 	dynamoCfg.Region = endpoints.UsEast1RegionID
 	NWorkers := 4
 
 	StartDispatcher(NWorkers, dynamoCfg)
 
+	// TODO This could also be set at startup, or made configurable with its own handler function.
 	s3Cfg, err := external.LoadDefaultAWSConfig()
 	if err != nil {
 		panic("unable to load SDK config, " + err.Error())
@@ -176,7 +182,7 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	// generate a struct based on reflection here:
+
 	// Split buffer into new lines
 	// Is this how I get a string from this buff?
 	if numBytes == 1 {
@@ -196,8 +202,8 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 	for _, line := range lines {
 
 		// split record into columns:
-		var m map[string]interface{}
-		m = make(map[string]interface{})
+		//var m map[string]interface{}
+		m := make(map[string]interface{})
 		for _, definition := range t.ColumnDefinitions {
 			if definition.InsertUUID {
 				m[definition.DynamoColumnName] = uuid.NewV4().String()
