@@ -19,7 +19,6 @@ import (
 	"log"
 	"io/ioutil"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatch"
-	"flag"
 )
 
 
@@ -125,8 +124,6 @@ func CloudwatchWorker(rate chan<- time.Duration, d DynamoConfig) {
 }
 
 func Collector(w http.ResponseWriter, r *http.Request) {
-
-
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
@@ -149,9 +146,9 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dynamoCfg.Region = endpoints.UsEast1RegionID
-	var NWorkers = flag.Int("n", 4, "The number of workers to start")
+	NWorkers := 4
 
-	StartDispatcher(*NWorkers, dynamoCfg)
+	StartDispatcher(NWorkers, dynamoCfg)
 
 	s3Cfg, err := external.LoadDefaultAWSConfig()
 	if err != nil {
