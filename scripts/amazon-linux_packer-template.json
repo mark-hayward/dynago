@@ -1,0 +1,51 @@
+{
+	"_comment": "Setting up environment variables here is adviseable: https://www.packer.io/docs/templates/user-variables.html"
+	"variables"
+	[
+		{
+			"alex_access_key": "AKIAJO433NC7YMPGIRSA",
+			"alex_secret_key": "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",
+			"aws_ami_name": "amazon-linux_{{isotime \"02Jan2006\"}}"
+		}
+		"sensitive-variables": ["alex_access_key", "alex_secret_key"],
+	]
+	"_comment": "Keep an eye on the auto setting for spot price, not sure how it works"
+	"builders": 
+	[
+		{
+			"type": "amazon-ebs",
+			"access_key": "{{user 'alex_access_key'}}",
+			"secret_key": "{{user 'alex_secret_key'}}",
+			"region": "eu-west-1",
+			"source_ami": "ami-fce3c696",
+			"instance_type": "t2.micro",
+			"ami_name": "packer {{user `aws_ami_name`}}",
+			"ami_block_device_mappings":["delete_on_termination": true],
+			"spot_price": "auto",
+			"spot_price_auto_product": "Linux/UNIX"
+			"ssh_username": "ec2-user",
+			"associate_public_ip_address": "true",
+			"source_ami_filter": 
+			{
+				"filters": {
+					"virtualization-type": "hvm",
+					"name": "amzn-ami*-ebs",
+					"root-device-type": "ebs"
+				},
+				"owners": ["137112412989", "591542846629", "801119661308", "102837901569", "013907871322", "206029621532", "286198878708", "443319210888"],
+				"most_recent": true
+			}
+		}
+	],
+	"_comment": "replace setup_things with our own script or expand upon the inline 'script': 'setup_things.sh'"
+	"provisioners": 
+	[
+		{
+			"type": "shell",
+			"inline":
+			[
+				"sudo yum update -y",
+			]
+		}
+	]
+}
