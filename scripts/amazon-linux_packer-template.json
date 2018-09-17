@@ -15,7 +15,7 @@
 			"ami_name": "packer {{user `aws_ami_name`}}",
 			"ami_block_device_mappings":[{"delete_on_termination": true , "device_name": "/dev/xvda", "volume_size": 20, "volume_type": "standard" }],
 			"spot_price": "auto",
-			"iam_instance_profile": "packerEC2Role",
+			"iam_instance_profile": "codebuild-Dynago-Build-service-role",
 			"spot_price_auto_product": "Linux/UNIX",
 			"ssh_username": "ec2-user",
 			"associate_public_ip_address": "true",
