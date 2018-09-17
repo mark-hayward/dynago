@@ -5,10 +5,12 @@ phases:
   pre_build:
     commands:
       - echo "Installing HashiCorp Packer..."
+      - mkdir -p ~/.aws
+      - echo "[default] \nregion = eu-west-1" > ~/.aws/credentials
       - curl -qL -o packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip && unzip packer.zip
       - echo "Validating amazon-linux_packer-template.json"
       - ./packer validate scripts/amazon-linux_packer-template.json
-      - sleep 600
+      - sleep 1
   build:
     commands:
       - ./packer build scripts/amazon-linux_packer-template.json
