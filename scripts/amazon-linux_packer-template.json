@@ -38,11 +38,11 @@
 			"type": "shell",
 			"inline":
 			[
-				"pwd"
+				"pwd",
 				"sudo yum update -y",
 				"wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz",
 				"tar -xzf go1.11.linus-amd64.tar.gz",
-				"ls"
+				"ls",
 				"export PATH=$PATH:/home/ec2-user/go/bin"
 			]
 		}
