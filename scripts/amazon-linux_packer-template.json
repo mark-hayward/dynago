@@ -38,8 +38,12 @@
 			"type": "shell",
 			"inline":
 			[
+				"pwd"
 				"sudo yum update -y",
-				"echo server has finsihed all tasks succesfully and will terminate shortly"
+				"wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz",
+				"tar -xzf go1.11.linus-amd64.tar.gz",
+				"ls"
+				"export PATH=$PATH:/home/ec2-user/go/bin"
 			]
 		}
 	]
