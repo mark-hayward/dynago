@@ -8,7 +8,7 @@ phases:
       - export WORKDIR=`pwd`
       - cd ../../../../
       - pwd
-      #//codebuild/output/src498332563 WORKDIR?
+      #//codebuild/output/src498332563 WORKDIR?!
       - echo "Installing HashiCorp Packer..."
       - mkdir -p ~/.aws
       - echo "[default] \nregion = eu-west-1" > ~/.aws/credentials
