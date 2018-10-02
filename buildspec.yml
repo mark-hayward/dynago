@@ -11,7 +11,7 @@ phases:
       - echo "Installing jq..."
       - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
       - echo "Validating amazon-linux_packer-template.json"
-      - ./packer validate scripts/amazon-linux_packer-template.json
+      - ./packer validate amazon-linux_packer-template.json
   build:
     commands:
       - echo "Configuring AWS credentials"
@@ -39,7 +39,7 @@ phases:
       - mv webServer $HOME
       - echo "Building HashiCorp Packer template, amazon-linux_packer-template.json"
 
-      - ./packer build scripts/amazon-linux_packer-template.json
+      - ./packer build amazon-linux_packer-template.json
   post_build:
     commands:
       - echo "HashiCorp Packer build completed on `date`"
