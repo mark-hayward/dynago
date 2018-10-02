@@ -12,15 +12,8 @@ phases:
       - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
       - echo "Validating amazon-linux_packer-template.json"
       - ./packer validate amazon-linux_packer-template.json
-  build:
-    commands:
-      - echo "Configuring AWS credentials"
-      - curl -qL -o aws_credentials.json http://169.254.170.2/$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI > aws_credentials.json
-      - aws configure set region $AWS_REGION
-      - aws configure set aws_access_key_id `./jq -r '.AccessKeyId' aws_credentials.json`
-      - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
-      - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
-
+      - pwd
+      - cd ~
       - pwd
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
@@ -38,6 +31,14 @@ phases:
       - cd GoServer/src/WebServer
       - go build -o webServer *.go
       - mv webServer $HOME
+  build:
+    commands:
+      - echo "Configuring AWS credentials"
+      - curl -qL -o aws_credentials.json http://169.254.170.2/$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI > aws_credentials.json
+      - aws configure set region $AWS_REGION
+      - aws configure set aws_access_key_id `./jq -r '.AccessKeyId' aws_credentials.json`
+      - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
+      - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
       - echo "Building HashiCorp Packer template, amazon-linux_packer-template.json"
 
       - ./packer build amazon-linux_packer-template.json
