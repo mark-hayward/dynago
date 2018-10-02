@@ -4,6 +4,11 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      #//codebuild/output/src498332563/src/github.com/mark-hayward/dynago  Default Directory
+      - export WORKDIR=`pwd`
+      - cd ../../../../
+      - pwd
+      #//codebuild/output/src498332563 WORKDIR?
       - echo "Installing HashiCorp Packer..."
       - mkdir -p ~/.aws
       - echo "[default] \nregion = eu-west-1" > ~/.aws/credentials
@@ -12,22 +17,13 @@ phases:
       - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
       - echo "Validating amazon-linux_packer-template.json"
       - ./packer validate amazon-linux_packer-template.json
-      - pwd
-      - cd ~
-      - pwd
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
-      - mkdir GoServer
-      - cd GoServer
-      - mkdir bin
-      - mkdir src
-      - mkdir web
-      - cd src
-      - mkdir WebServer
-      - export GOPATH=$HOME/GoServer
+      - export GOPATH=`pwd`
       - go version
-      - cd ~
-      - mv webServer.go $HOME/GoServer/src/WebServer
+      - cd src
+      - cd $WORKDIR
+      - mv webServer.go $WORKDIR/GoServer/src/WebServer
       - cd GoServer/src/WebServer
       - go build -o webServer *.go
       - mv webServer $HOME
