@@ -24,9 +24,9 @@ phases:
       - go get github.com/gorilla/context
       - go get github.com/dgrijalva/jwt-go
       - go get github.com/aws/aws-sdk-go-v2/service/s3/s3manager
-      - go get github.com/aws/aws-sdk-go-v2/service/s3/dynamodb
-      - go get github.com/aws/aws-sdk-go-v2/service/s3/cloudwatch
-      - go get github.com/aws/aws-sdk-go-v2/service/aws
+      - go get github.com/aws/aws-sdk-go-v2/service/dynamodb
+      - go get github.com/aws/aws-sdk-go-v2/service/cloudwatch
+      - go get github.com/aws/aws-sdk-go-v2/aws
       - cd $LOWDIR/webServer
       - go build -o webFile *.go
       - mv webFile $HIGHDIR
