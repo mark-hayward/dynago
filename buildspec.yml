@@ -16,11 +16,9 @@ phases:
       - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
-      - cd $LOWDIR
-      - cd ../../../
+      - cd $HIGHDIR
       - export GOPATH=`pwd`
-      - cd ../
-      - pwd
+      - ls
       - go version
       - cd $LOWDIR/webServer
       - go build -o webFile *.go
