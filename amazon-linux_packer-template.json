@@ -45,7 +45,6 @@
 			[
 				"sudo yum update -y",
 				"chmod -x webServer"
-				//". ./webServer"
 			]
 		}
 	]
