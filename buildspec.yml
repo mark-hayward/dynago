@@ -21,6 +21,7 @@ phases:
       - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
       - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
 
+      - pwd
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
       - mkdir GoServer
