@@ -14,16 +14,16 @@ phases:
       - curl -qL -o packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip && unzip packer.zip
       - echo "Installing jq..."
       - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
-      - echo "Validating amazon-linux_packer-template.json"
-      - ./packer validate $LOWDIR/amazon-linux_packer-template.json
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
       - export GOPATH=$HIGHDIR
       - go version
       - cd $LOWDIR/webServer
       - go build -o webFile *.go
-      - mv webServer $HIGHDIR
+      - mv webFile $HIGHDIR
       - cd $HIGHDIR
+      - echo "Validating amazon-linux_packer-template.json"
+      - ./packer validate $LOWDIR/amazon-linux_packer-template.json
   build:
     commands:
       - echo "Configuring AWS credentials"
