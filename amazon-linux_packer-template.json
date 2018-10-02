@@ -1,0 +1,52 @@
+{
+	"_comment": "Setting up environment variables here is adviseable: https://www.packer.io/docs/templates/user-variables.html replace setup_things with our own script or expand upon the inline 'script': 'setup_things.sh' Keep an eye on the auto setting for spot price, not sure how it works",
+	"variables":
+	{
+		"aws_region": "{{env `AWS_REGION`}}",
+		"aws_ami_name": "dynago_{{timestamp}} "
+	},
+	
+	"builders": 
+	[
+		{
+			"type": "amazon-ebs",
+			"region": "eu-west-1",
+			"instance_type": "t2.micro",
+			"ami_name": "packer {{user `aws_ami_name`}}",
+			"ami_block_device_mappings":[{"delete_on_termination": true , "device_name": "/dev/xvda", "volume_size": 20, "volume_type": "standard" }],
+			"spot_price": "auto",
+			"iam_instance_profile": "packerEC2Role",
+			"spot_price_auto_product": "Linux/UNIX",
+			"ssh_username": "ec2-user",
+			"associate_public_ip_address": "true",
+			"source_ami_filter": 
+			{
+				"filters": 
+				{
+					"virtualization-type": "hvm",
+					"name": "amzn-ami*-ebs",
+					"root-device-type": "ebs"
+				},
+				"owners": ["137112412989", "591542846629", "801119661308", "102837901569", "013907871322", "206029621532", "286198878708", "443319210888"],
+				"most_recent": true
+			}
+		}
+	],
+	"provisioners":
+	[
+		{
+			"type": "file",
+			"source": "webServer",
+			"destination": "webServer"
+		},
+		{
+			"type": "shell",
+			"inline":
+			[
+				"sudo yum update -y",
+				"chmod -x webServer",
+				"./webServer"
+			]
+		}
+	]
+}

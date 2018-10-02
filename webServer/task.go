@@ -1,6 +1,5 @@
 package main
 
-
 type S3Config struct {
 	Region string
 	Bucket string
@@ -8,12 +7,12 @@ type S3Config struct {
 }
 
 type DynamoConfig struct {
-	TableName                string
-	Hash                     string
-	Sort                     string
-	MaximumCapacity          int
+	TableName                 string
+	Hash                      string
+	Sort                      string
+	MaximumCapacity           int
 	MaximumPercentageCapacity int
-	StartCapacity            int
+	StartCapacity             int
 }
 
 type ColumnDefinition struct {

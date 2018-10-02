@@ -1,53 +1,48 @@
 package main
 
 import (
+	"bytes"
+	"encoding/csv"
+	"encoding/json"
 	//		"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/aws/external"
-	"time"
-	"github.com/aws/aws-sdk-go-v2/service/s3/s3manager"
-	"bytes"
-	"encoding/csv"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/dynamodbattribute"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/aws/endpoints"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/twinj/uuid"
-	"net/http"
-	"encoding/json"
-	"log"
-	"io/ioutil"
+	"github.com/aws/aws-sdk-go-v2/aws/external"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatch"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/s3/s3manager"
+	"github.com/twinj/uuid"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
 )
 
-
-
-
 type WorkRequest struct {
-	record		*dynamodb.PutItemInput
+	record *dynamodb.PutItemInput
 }
 
 type JSONRequest struct {
 	ColumnDefinitions []ColumnDefinition
-	DynamoConfig    DynamoConfig
-	S3Config    S3Config
-	Name 	string
+	DynamoConfig      DynamoConfig
+	S3Config          S3Config
+	Name              string
 }
-
-
 
 // A buffered channel that we can send work requests on.
 var WorkQueue = make(chan WorkRequest, 100)
 
-	//dynamoConfig := &DynamoConfig{
-	//	TableName: "DynagoDb",
-	//	Hash:"id",
-	//	Sort:"somethingelse",
-	//	MaximumCapacity:2000,
-	//	MaximumPercentageCapacity: 80,
-	//	StartCapacity: 50,
-	//}
+//dynamoConfig := &DynamoConfig{
+//	TableName: "DynagoDb",
+//	Hash:"id",
+//	Sort:"somethingelse",
+//	MaximumCapacity:2000,
+//	MaximumPercentageCapacity: 80,
+//	StartCapacity: 50,
+//}
 
 func CloudwatchWorker(rate chan<- time.Duration, d DynamoConfig) {
 	fmt.Println(rate)
@@ -58,13 +53,13 @@ func CloudwatchWorker(rate chan<- time.Duration, d DynamoConfig) {
 	if err != nil {
 		panic("unable to load SDK config, " + err.Error())
 	}
-	cfg.Region = endpoints.UsEast1RegionID
+	cfg.Region = endpoints.EuWest1RegionID
 	svc := cloudwatch.New(cfg)
 	ticker := time.NewTicker(time.Minute * 1)
 	for tick := range ticker.C {
 		fmt.Println(tick)
 
- 		if d.MaximumPercentageCapacity < 100 {
+		if d.MaximumPercentageCapacity < 100 {
 
 			// Get Current Throughput
 			currentCapacity := float64(5)
@@ -150,7 +145,7 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO This could be made configurable.
-	dynamoCfg.Region = endpoints.UsEast1RegionID
+	dynamoCfg.Region = endpoints.EuWest1RegionID
 	NWorkers := 4
 
 	StartDispatcher(NWorkers, dynamoCfg)
@@ -163,7 +158,7 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 
 	// Set the AWS Region that the S3 service clients should use
 	// region usually be regionUsEast1RegionID
-	s3Cfg.Region = endpoints.UsEast1RegionID
+	s3Cfg.Region = endpoints.EuWest1RegionID
 
 	svc := s3.New(s3Cfg)
 
@@ -190,14 +185,13 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 	}
 	csvFile := bytes.NewReader(buff.Bytes())
 
-
 	//Now I need to get I want to split the CSV into lines. How do I do this and append any trailing characters to the next buffer?
 	lines, _ := csv.NewReader(csvFile).ReadAll()
 
 	// This should be one second (1000ms) divided by the amount of write throughput.
 	// In this example, we have a write throughput of 5 items per second. Answer should be 200ms
 	// If val
-	sleepTime :=  time.Duration(0)
+	sleepTime := time.Duration(0)
 
 	for _, line := range lines {
 
@@ -211,7 +205,7 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 				m[definition.DynamoColumnName] = line[definition.CSVColumnIndex]
 			}
 		}
-		a,err := dynamodbattribute.MarshalMap(m)
+		a, err := dynamodbattribute.MarshalMap(m)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -220,7 +214,7 @@ func Collector(w http.ResponseWriter, r *http.Request) {
 
 		//s:=data["asset_id"].(string)
 		params := &dynamodb.PutItemInput{
-			Item: a,
+			Item:      a,
 			TableName: aws.String(t.DynamoConfig.TableName), // Required
 		}
 		fmt.Println(params)

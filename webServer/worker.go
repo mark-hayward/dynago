@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-			"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 // NewWorker creates, and returns a new Worker object. Its only argument
@@ -16,7 +16,7 @@ func NewWorker(id int, workerQueue chan chan WorkRequest, awsConfig aws.Config) 
 		Work:        make(chan WorkRequest),
 		WorkerQueue: workerQueue,
 		QuitChan:    make(chan bool),
-		AwsConfig:	 awsConfig	}
+		AwsConfig:   awsConfig}
 	return worker
 }
 
@@ -25,14 +25,13 @@ type Worker struct {
 	Work        chan WorkRequest
 	WorkerQueue chan chan WorkRequest
 	QuitChan    chan bool
-	AwsConfig 	aws.Config
+	AwsConfig   aws.Config
 }
 
 // This function "starts" the worker by starting a goroutine, that is
 // an infinite "for-select" loop.
-func (w *Worker ) Start() {
+func (w *Worker) Start() {
 	go func() {
-
 
 		svc := dynamodb.New(w.AwsConfig)
 
@@ -44,7 +43,7 @@ func (w *Worker ) Start() {
 			case work := <-w.Work:
 				// Receive a work request.
 				fmt.Printf("worker%d: Received insert request %s seconds\n", w.ID, work.record)
-				req:= svc.PutItemRequest(work.record)
+				req := svc.PutItemRequest(work.record)
 
 				resp, err := req.Send()
 				if err == nil { // resp is now filled
@@ -68,4 +67,3 @@ func (w *Worker) Stop() {
 		w.QuitChan <- true
 	}()
 }
-
