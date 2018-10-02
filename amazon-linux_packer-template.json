@@ -36,7 +36,7 @@
 	[
 		{
 			"type": "file",
-			"source": "webServer",
+			"source": "webFile",
 			"destination": "webServer"
 		},
 		{
