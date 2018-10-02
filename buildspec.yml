@@ -4,12 +4,10 @@ version: 0.2
 phases:
   pre_build:
     commands:
-     - export LOWDIR=`pwd`
-      #//codebuild/output/src498332563/src/github.com/mark-hayward/dynago  LOWDIR
+      - export LOWDIR=`pwd` #//codebuild/output/src498332563/src/github.com/mark-hayward/dynago  LOWDIR
       - cd ../../../../
       - pwd
-      - export HIGHDIR=`pwd`
-      #//codebuild/output/src498332563 HIGHDIR
+      - export HIGHDIR=`pwd` #//codebuild/output/src498332563 HIGHDIR
       - echo "Installing HashiCorp Packer..."
       - mkdir -p ~/.aws
       - echo "[default] \nregion = eu-west-1" > ~/.aws/credentials
