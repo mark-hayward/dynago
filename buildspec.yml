@@ -20,7 +20,8 @@ phases:
       - cd ../../../
       - export GOPATH=`pwd`
       - cd ../
-      - ./go version
+      - pwd
+      - go version
       - cd $LOWDIR/webServer
       - go build -o webFile *.go
       - mv webFile $HIGHDIR
