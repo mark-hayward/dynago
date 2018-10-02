@@ -17,8 +17,8 @@ phases:
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
       - cd $HIGHDIR
-      - export GOPATH=`pwd`
-      - ls
+      - export GOPATH = `pwd`
+      - export PATH = $PATH":" `ped`/go/bin
       - go version
       - cd $LOWDIR/webServer
       - go build -o webFile *.go
