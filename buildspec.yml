@@ -43,7 +43,7 @@ phases:
       - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
       - echo "Building HashiCorp Packer template, amazon-linux_packer-template.json"
 
-      - ./packer build amazon-linux_packer-template.json
+      - ./packer build $LOWDIR/amazon-linux_packer-template.json
   post_build:
     commands:
       - echo "HashiCorp Packer build completed on `date`"
