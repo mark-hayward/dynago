@@ -44,8 +44,8 @@
 			"inline":
 			[
 				"sudo yum update -y",
-				"chmod -x webServer",
-				"./webServer"
+				"sudo chmod -x webServer",
+				"sudo ./webServer"
 			]
 		}
 	]
