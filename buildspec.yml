@@ -23,7 +23,6 @@ phases:
 
       - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
       - tar -xzf go1.11.linux-amd64.tar.gz
-      - go version
       - mkdir GoServer
       - cd GoServer
       - mkdir bin
@@ -32,6 +31,7 @@ phases:
       - cd src
       - mkdir WebServer
       - export GOPATH=$HOME/GoServer
+      - go version
       - cd ~
       - mv webServer.go $HOME/GoServer/src/WebServer
       - cd GoServer/src/WebServer
