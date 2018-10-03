@@ -48,7 +48,8 @@
 			"type": "shell",
 			"inline":
 			[
-				"sudo yum update -y",
+				"sudo -i",
+				"yum update -y",
 				"tar -xzf fileStore.tar.gz web",
 				"chmod +x webServer",
 				"mkdir /var/dynago",
