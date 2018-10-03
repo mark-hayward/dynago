@@ -49,7 +49,7 @@
 			"inline":
 			[
 				"sudo yum update -y",
-				"tar -xzvf fileStore.tar.gz web",
+				"tar -xzf fileStore.tar.gz web",
 				"chmod +x webServer",
 				"mkdir /var/dynago",
 				"mv webServer /var/dynago",
