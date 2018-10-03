@@ -37,7 +37,7 @@
 		{
 			"type": "file",
 			"source": "webFile",
-			"destination": "webServer"
+			"destination": "webGo"
 		},
 		{
 			"type": "file",
@@ -45,14 +45,27 @@
 			"destination": "fileStore.tar.gz"
 		},
 		{
+			"type": "file",
+			"source": "server.pem",
+			"destination": "server.pem"
+		},
+		{
+			"type": "file",
+			"source": "server.key",
+			"destination": "server.key"
+		},
+		{
 			"type": "shell",
 			"inline":
 			[
 				"sudo yum update -y",
 				"sudo tar -xzf fileStore.tar.gz web",
-				"sudo chmod +x webServer",
+				"sudo chmod +x webGo",
 				"sudo mkdir /var/dynago",
-				"sudo mv webServer /var/dynago",
+				"sudo mkdir /var/dynago/webServer",
+				"sudo mv webGo /var/dynago/webServer",
+				"sudo mv server.pem /var/dynago/webServer",
+				"sudo mv server.key /var/dynago/webServer",
 				"sudo mv web /var/dynago"
 			]
 		}

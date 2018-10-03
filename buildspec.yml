@@ -33,6 +33,8 @@ phases:
       - cd webServer
       - go build -o webFile *.go
       - mv webFile $HIGHDIR
+      - mv server.pem $HIGHDIR
+      - mv server.key $HIGHDIR
       - cd $HIGHDIR
       - echo "Validating amazon-linux_packer-template.json"
       - ./packer validate $LOWDIR/amazon-linux_packer-template.json
