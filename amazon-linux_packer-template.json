@@ -48,15 +48,12 @@
 			"type": "shell",
 			"inline":
 			[
-				"sudo -i",
-				"yum update -y",
-				"tar -xzf fileStore.tar.gz web",
-				"chmod +x webServer",
-				"mkdir /var/dynago",
-				"mv webServer /var/dynago",
-				"mv web /var/dynago",
-				"cd /var/dynago/",
-				"./webServer"
+				"sudo yum update -y",
+				"sudo tar -xzf fileStore.tar.gz web",
+				"sudo chmod +x webServer",
+				"sudo mkdir /var/dynago",
+				"sudo mv webServer /var/dynago",
+				"sudo mv web /var/dynago"
 			]
 		}
 	]
