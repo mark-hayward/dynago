@@ -59,9 +59,9 @@
 			"inline":
 			[
 				"sudo yum update -y",
-				"chkconfig iptables on",
+				"sudo chkconfig iptables on",
 				"sudo iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8001",
-				"service iptables save",
+				"sudo service iptables save",
 				"sudo tar -xzf fileStore.tar.gz web",
 				"sudo chmod +x webGo",
 				"sudo mkdir /var/dynago",
