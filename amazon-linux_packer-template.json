@@ -55,6 +55,11 @@
 			"destination": "server.key"
 		},
 		{
+			"type": "file",
+			"source": "users.json",
+			"destination": "users.json"
+		},
+		{
 			"type": "shell",
 			"inline":
 			[
@@ -66,7 +71,9 @@
 				"sudo chmod +x webGo",
 				"sudo mkdir /var/dynago",
 				"sudo mkdir /var/dynago/webServer",
+				"sudo mkdir /var/dynago/webServer/config",
 				"sudo mv webGo /var/dynago/webServer",
+				"sudo mv users.json /var/dynago/webServer/config",
 				"sudo mv server.pem /var/dynago/webServer",
 				"sudo mv server.key /var/dynago/webServer",
 				"sudo mv web /var/dynago"

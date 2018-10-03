@@ -8,7 +8,6 @@ info:
     name: "NamesAreHard"
   license:
     name: "CDF"
-host: "18.202.205.176"
 basePath: "/"
 schemes:
 - "https"
