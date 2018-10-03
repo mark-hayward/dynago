@@ -36,15 +36,26 @@
 	[
 		{
 			"type": "file",
-			"source": "webFile",
-			"destination": "webServer"
+			"source": "webFile.tar.gz",
+			"destination": "webServer.tar.gz"
+		},
+		{
+			"type": "file",
+			"source": "fileStore",
+			"destination": "web"
 		},
 		{
 			"type": "shell",
 			"inline":
 			[
 				"sudo yum update -y",
-				"chmod -x webServer"
+				"tar -xzvf fileStore.tar.gz web",
+				"chmod +x webServer",
+				"mkdir /var/dynago",
+				"mv webServer /var/dynago",
+				"mv web /var/dynago",
+				"cd /var/dynago/",
+				"./webServer"
 			]
 		}
 	]

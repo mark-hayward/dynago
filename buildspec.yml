@@ -27,7 +27,10 @@ phases:
       - go get github.com/aws/aws-sdk-go-v2/service/dynamodb
       - go get github.com/aws/aws-sdk-go-v2/service/cloudwatch
       - go get github.com/aws/aws-sdk-go-v2/aws
-      - cd $LOWDIR/webServer
+      - cd $LOWDIR
+      - tar -czvf fileStore.tar.gz /web
+      - mv fileStore.tar.gz $HIGHDIR
+      - cd webServer
       - go build -o webFile *.go
       - mv webFile $HIGHDIR
       - cd $HIGHDIR
